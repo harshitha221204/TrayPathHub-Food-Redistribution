@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block content %}
+<main class="form-page">
+  <div class="form-container">
+    <h2>Available Surplus</h2>
+    <div id="map" style="height:300px;margin-bottom:12px;"></div>
+    <div class="listings">
+      {% for l in listings %}
+        <div class="listing"><h4>{{ l['title'] }} - {{ l['quantity'] }} qty</h4><p>{{ l['description'] }}</p><p>Pickup: {{ l['pickup_address'] }}</p><p>Restaurant: {{ l['restaurant_name'] }} / {{ l['restaurant_phone'] }}</p><p>Expiry: {{ l['expiry'] }}</p>
+          <form method="post" action="{{ url_for('claim', listing_id=l['id']) }}"><label>Qty to claim</label><input name="qty" type="number" value="1" min="1" max="{{ l['quantity'] }}"><button class="green-btn" type="submit">Claim</button></form>
+        </div>
+      {% else %}
+        <p>No available listings.</p>
+      {% endfor %}
+    </div>
+  </div>
+
+  <div class="container content-page">
+    <h3>My Claims</h3>
+    <table>
+      <tr><th>Food ID</th><th>Food Name</th><th>Qty</th><th>Status</th><th>Claimed At</th></tr>
+      {% for c in claims %}
+        <tr><td>{{ c['listing_id'] }}</td><td>{{ c['food_title'] }}</td><td>{{ c['qty'] }}</td><td>{{ c['status'] }}</td><td>{{ c['claimed_at'] }}</td></tr>
+      {% else %}
+        <tr><td colspan="5">No claims yet.</td></tr>
+      {% endfor %}
+    </table>
+  </div>
+</main>
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+  var map = L.map('map').setView([28.6139,77.2090], 12);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {maxZoom:19}).addTo(map);
+
+  fetch('/api/listings').then(r=>r.json()).then(data=>{
+    data.forEach(function(item){
+      if(item.lat && item.lon){
+        L.marker([item.lat, item.lon]).addTo(map).bindPopup(item.title + ' - ' + item.restaurant_name);
+      }
+    });
+  });
+
+  if(navigator.geolocation){
+    navigator.geolocation.getCurrentPosition(function(p){
+      var lat=p.coords.latitude, lon=p.coords.longitude;
+      map.setView([lat,lon],13);
+      L.marker([lat,lon]).addTo(map).bindPopup('Your Location').openPopup();
+    }, function(err){ console.log('loc err', err); });
+  }
+</script>
+{% endblock %}

@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block content %}
+<main class="form-page">
+  <div class="form-container">
+    <h2>Register as Restaurant</h2>
+    <form method="post">
+      <label>Name</label><input name="name" required>
+      <label>Email</label><input name="email" type="email" required>
+      <label>Password</label><input name="password" type="password" required>
+      <label>Phone</label><input name="phone" required>
+      <label>Location (optional)</label>
+      <input name="latitude" placeholder="latitude">
+      <input name="longitude" placeholder="longitude">
+      <button class="green-btn" type="submit">Register as Restaurant</button>
+    </form>
+  </div>
+</main>
+{% endblock %}

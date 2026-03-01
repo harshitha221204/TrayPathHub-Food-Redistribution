@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block content %}
+<main class="form-page">
+  <div class="form-container">
+    <h2>Register as NGO / Individual</h2>
+    <form method="post">
+      <label>Name</label><input name="name" required>
+      <label>Email</label><input name="email" type="email" required>
+      <label>Password</label><input name="password" type="password" required>
+      <label>Phone</label><input name="phone" required>
+      <label>Location (optional)</label>
+      <input id="lat" name="latitude" placeholder="latitude">
+      <input id="lon" name="longitude" placeholder="longitude">
+      <button type="button" onclick="captureLocation()">Capture My Location</button>
+      <button class="green-btn" type="submit">Register as NGO</button>
+    </form>
+  </div>
+  <script>
+    function captureLocation(){
+      if(navigator.geolocation){
+        navigator.geolocation.getCurrentPosition(function(p){
+          document.getElementById('lat').value = p.coords.latitude;
+          document.getElementById('lon').value = p.coords.longitude;
+          alert('Location captured');
+        }, function(err){ alert('Unable to capture location'); });
+      } else alert('Geolocation not supported');
+    }
+  </script>
+</main>
+{% endblock %}

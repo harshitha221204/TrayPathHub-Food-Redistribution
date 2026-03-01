@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block content %}
+<main class="hero hero-overlay">
+  <div class="form-card">
+    <h2>Login</h2>
+    {% if error %}<p class="error">{{ error }}</p>{% endif %}
+    <form method="post">
+      <label for="role">Login as</label>
+      <select name="role" id="role">
+        <option value="restaurant">Restaurant</option>
+        <option value="ngo">NGO</option>
+        <option value="admin">Admin</option>
+      </select>
+      <label>Email</label>
+      <input type="email" name="email" required>
+      <label>Password</label>
+      <input type="password" name="password" required>
+      <button class="green-btn" type="submit">Login</button>
+    </form>
+  </div>
+</main>
+{% endblock %}

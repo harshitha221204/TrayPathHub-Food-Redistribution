@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block content %}
+<main class="hero hero-overlay">
+  <div class="form-card">
+    <h2>Create an account</h2>
+    <div class="register-options">
+      <a class="option" href="{{ url_for('register_restaurant') }}">Register as Restaurant</a>
+      <a class="option" href="{{ url_for('register_ngo') }}">Register as NGO / Individual</a>
+    </div>
+  </div>
+</main>
+{% endblock %}

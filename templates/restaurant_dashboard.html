@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block content %}
+<main class="form-page">
+  <div class="form-container">
+    <h2>Add Surplus Food</h2>
+    <form method="post">
+      <label>Title</label><input name="title" required>
+      <label>Description</label><textarea name="description" required></textarea>
+      <label>Quantity</label><input name="quantity" type="number" required>
+      <label>Expiry (dd-mm-yyyy hh:mm)</label><input name="expiry" required>
+      <label>Pickup Address</label><textarea name="pickup_address" required></textarea>
+      <button class="green-btn" type="submit">Publish</button>
+    </form>
+  </div>
+
+  <div class="container content-page">
+    <h3>Your Listings</h3>
+    <div class="listings">
+      {% for l in listings %}
+        <div class="listing"><h4>{{ l['title'] }} - {{ l['quantity'] }} qty</h4><p>{{ l['description'] }}</p><p>Pickup: {{ l['pickup_address'] }}</p><p>Status: {{ l['status'] }}</p></div>
+      {% else %}
+        <p>No listings yet.</p>
+      {% endfor %}
+    </div>
+  </div>
+</main>
+{% endblock %}
